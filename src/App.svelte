@@ -36,10 +36,25 @@
     });
   });
 
-  function filterData(treeSuggestion) {
+  let markers = [];
 
-    data = data.filter(e => e['Common Name'].toLowerCase()==treeSuggestion.toLowerCase() )
-    data.forEach((tree, i) => {
+  function clearMarkers() {
+
+    console.log("clear");
+    markers.forEach(marker => {
+        map.removeLayer(marker);
+    });
+    markers = [];
+  }
+
+  function filterData(treeSuggestion) {
+    console.log("treeSuggestion", treeSuggestion);
+
+    let data_temp = data.filter(e => e['Common Name'].toLowerCase()==treeSuggestion.toLowerCase() )
+    clearMarkers();
+
+    data_temp.forEach((tree, i) => {
+
       if ((!isNaN(tree.Latitude)) & (!isNaN(tree.Longitude))) {
 
         const markerLocation = [tree.Latitude, tree.Longitude];
@@ -55,8 +70,10 @@
             <p>
               ${tree['Scientific Name']}
             </p>
-            `);
+        `);
+        markers.push(marker);
       };
+    
     });
 
   }
